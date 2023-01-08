@@ -20,6 +20,15 @@ func New(l int) (string, error) {
 	return strings.Map(alphaNumeric, base64.RawURLEncoding.EncodeToString(buf))[:l], nil
 }
 
+// Must is a wrapper around New but panics if New returns an error.
+func Must(l int) string {
+	n, err := New(l)
+	if err != nil {
+		panic(err.Error())
+	}
+	return n
+}
+
 func alphaNumeric(r rune) rune {
 	if unicode.IsLetter(r) || unicode.IsDigit(r) {
 		return r
